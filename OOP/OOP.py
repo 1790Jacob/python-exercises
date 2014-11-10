@@ -5,15 +5,14 @@ class Person:
 		self.weight=weight
 		self.number_of_fingers=number_of_fingers
 		self.name=name
-	def printHeight(self):
-		return self.name,"is",self.height,"inches tall."
-	def printArms(self):
-		return Jacob.name,"has",Jacob.number_of_arms,"arms."
+	def sayHeight(self):
+		print self.name,"is",self.height,"inches tall."
+	def sayNumberOfArms(self):
+		print Jacob.name,"has",Jacob.number_of_arms,"arms."
 
 
 Jacob=Person(2, 55, 72, 10, "Jacob")
-print Jacob.name,"is",Jacob.height,"inches tall."
-print Jacob.printHeight()
-print Jacob.printArms()
+Jacob.sayHeight()
+Jacob.sayNumberOfArms()
 # print Jacob.name,"has",Jacob.number_of_arms,"arms."
 
