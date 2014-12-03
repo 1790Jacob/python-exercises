@@ -16,8 +16,7 @@ class Board:
 	def __repr__(self):
 		return self.__str__()
 
-	def whoseTurn(self):
-		return self.turn
+
 
 	def changeTurn(self):
 		if self.turn==self.player1:
@@ -28,12 +27,12 @@ class Board:
 	def prompt(self):
 		print "It's your move, Player", self.turn
 		self.column_to_play=raw_input("Choose a column, Player", self.turn)
-		if self.column_to_play < 0 or self.column_to_play > 6:
+		if self.column_to_play < 0 or self.column_to_play > 6 or type(self.column_to_play) != int:
 			print "Invalid move. Please pick a column between 0 and 6."
 			return self.prompt()
 
 	def isEmpty(self, row, column):
-		if checker_positions[row][column] == " ":
+		if self.board[row][column] == " ":
 			return True
 		else:
 			return False
@@ -41,23 +40,38 @@ class Board:
 
 
 
-	def getLowestEmptySquareInColumn(self, column):
-		pass
-		# TODO
-		# so given a column, find the lowest square in self.board which is " "
-		# ie for column 3 
-		# check self.board[5][3], then self.board[4][3], then self.board[3][3], and so on until you find an empty square
-		# return None if there are no empty squares in given column
-		
+	def getLowestEmptyRowInColumn(self, column):
+		'''
+		Given a column, returns the row index of the lowest empty square.
+		'''
+		if self.isEmpty(5, column):
+			return 5
+		elif self.isEmpty(4, column):
+			return 4
+		elif self.isEmpty (3, column):
+			return 3
+		elif self.isEmpty (2, column):
+			return 2
+		elif self.isEmpty (1, column):
+			return 1
+		elif self.isEmpty (0, column):
+			return 0
+		else: # no empty squares in this column
+			return None	
+				
+			
 
 
 	def placeChecker(self):
-		lowest=self.getLowestEmptySquareInColumn(self.column_to_play)
+		'''
+		place a checker unless column is full
+		'''
+		lowest=self.getLowestEmptyRowInColumn(self.column_to_play)
 		if lowest==None:
-			print "There are no empty spots in that column"
+			print "Sorry, this column is full. Please choose another"
 			self.prompt()
 		else: 
-			lowest=self.turn
+			self.board[lowest][self.column_to_play] = self.turn
 
 	def game_over(self):
 		pass
