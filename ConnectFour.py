@@ -1,68 +1,54 @@
-# default board dimensions are 7 columns and 6 rows
-# MUTABLE version
-
-#INITIALIZE BOARD
-# every square is 0 to start
-rows = ["A", "B", "C", "D", "E", "F"]
-columns = ["1", "2", "3", "4", "5", "6", "7"]
-squares = [i + j for i in rows for j in columns]
-checker_positions = {s:0 for s in squares}
-
-
+# mutable version - make one board, that board gets changed as the game goes along
 class Board:
-	def __init__(self, checker_positions, turn, number_of_checkers, height=6, width=7):
-		self.height=height
-		self.width=width
-		self.checker_positions=checker_positions
-		self.turn=turn
-		self.number_of_checkers=number_of_checkers
+	def __init__(self):
+		self.height=6
+		self.width=7
+		self.player1 = 'X'
+		self.player2 = 'O'
+		self.board = [[" " for i in range(self.width)] for j in range(self.height)] #represent board array as a list of lists
+		self.turn = self.player1
 		self.column_to_play = None
 
 	def __str__(self):
-		""" Return a string representation of this board """
-		board_symbol_mapping = { 0: ' ', 1: 'X', 2: 'O' }
-		retVal = [ "  " + ' '.join([str(x) for x in range(self.width)]) ]
-		retVal += [ str(i) + ' ' + ' '.join([self.board_symbol_mapping[x] for x in row]) for i, row in enumerate(self.checker_positions) ]
-		return '\n' + '\n'.join(retVal) + '\n'
+		rows = [str(x) + " " + self.board[x][0] + " " + self.board[x][1] + " "  + self.board[x][2] + " "  + self.board[x][3] + " "  + self.board[x][4] + " "  + self.board[x][5] + " "  + self.board[x][6] + " \n" for x in range(self.height)]
+		return "\n  0 1 2 3 4 5 6\n"+rows[0]+rows[1]+rows[2]+rows[3]+rows[4]+rows[5] + "\n"
 
 	def __repr__(self):
-		""" The string representation of a board in the Python shell """
 		return self.__str__()
 
-	def getHeight(self):
-		return self.height
-
-	def getWidth(self):
-		return self.width
-
-
-
-#represent board array as a list of lists
 	def whoseTurn(self):
 		return self.turn
 
 	def changeTurn(self):
-		if self.turn==1:
-			self.turn=2
-		elif self.turn==2:
-			self.turn=1
+		if self.turn==self.player1:
+			self.turn=self.player2
+		elif self.turn==self.player2:
+			self.turn=self.player1
 	
 	def prompt(self):
 		print "It's your move, Player", self.turn
 		self.column_to_play=raw_input("Choose a column, Player", self.turn)
+		if self.column_to_play < 0 or self.column_to_play > 6:
+			print "Invalid move. Please pick a column between 0 and 6."
+			return self.prompt()
 
-	def isEmpty(self, square):
-		if checker_positions[square] == 0:
+	def isEmpty(self, row, column):
+		if checker_positions[row][column] == " ":
 			return True
 		else:
 			return False
 
-	def getLowestEmptySquareInColumn(self):
+
+
+
+	def getLowestEmptySquareInColumn(self, column):
+		pass
+		# TODO
+		# so given a column, find the lowest square in self.board which is " "
+		# ie for column 3 
+		# check self.board[5][3], then self.board[4][3], then self.board[3][3], and so on until you find an empty square
+		# return None if there are no empty squares in given column
 		
-		#TODO
-		# delete pass
-		# if self.column_to_play==7:
-		# if self.isEmpty("A7"):
 
 
 	def placeChecker(self):
@@ -70,8 +56,15 @@ class Board:
 		if lowest==None:
 			print "There are no empty spots in that column"
 			self.prompt()
-		else: lowest=self.turn
+		else: 
+			lowest=self.turn
 
 	def game_over(self):
+		pass
 		#TODO
 		#ends game if any player has 4 checkers in a row
+		#have to check all cases where this could happen
+		
+
+board = Board()
+print board.__str__()
