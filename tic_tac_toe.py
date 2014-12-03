@@ -58,6 +58,9 @@ class Board:
 		elif self.board[row][column] != " ":
 			print "Spot already taken. Try again."
 			return True
+		elif type(row) != int or type(column) !=int:
+			print "Invalid Move. Try Again. Input must be a number"
+			return True
 		else:
 			return False
 
